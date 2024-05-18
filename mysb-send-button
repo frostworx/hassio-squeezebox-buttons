@@ -1,0 +1,149 @@
+alias: mysb-send-button
+description: trigger squeezebox buttons
+trigger:
+  - platform: webhook
+    allowed_methods:
+      - POST
+      - PUT
+    local_only: true
+    webhook_id: 87161aac-f0ae-4939-8ad3-4f36b6482bb9
+condition: []
+action:
+  - service: persistent_notification.create
+    data_template:
+      message: "{{ this.attributes.friendly_name }} RAW: {{ dict(trigger.data).key }}"
+    enabled: false
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '0066' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key HOME: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '008e' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key ALARM: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '004e' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key MORE: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '00a5' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key REW: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '00a4' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key PAUSE: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '00a3' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key FWD: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '0069' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key BACK: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '00cf' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key PLAY: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '003b' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key F1: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '003c' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key F2: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '003d' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key F3: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '003e' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key F4: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '003f' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key F5: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '0040' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key F6: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '0071' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key MUTE: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '0074' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key POWER: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '006a' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key SNOOZE: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '00090001' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key VOLDOWN: {{ dict(trigger.data).key }}"
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '0009ffff' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key VOLUP: {{ dict(trigger.data).key }}"
+mode: single
