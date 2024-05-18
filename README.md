@@ -58,7 +58,7 @@ template:
 
 ## in the squeezebox
 
-- add the scripts to `/etc/init.d/rcS.local`' _(does not exist by default)_
+- add the scripts to `/etc/init.d/rcS.local` _(does not exist by default)_
 _(commented for a reason, you might have already a custom rcS.local)_:
 
 #echo "/usr/bin/sbev0mon &" > /etc/init.d/rcS.local
