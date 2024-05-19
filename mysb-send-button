@@ -13,6 +13,7 @@ action:
     data_template:
       message: "{{ this.attributes.friendly_name }} RAW: {{ dict(trigger.data).key }}"
     enabled: false
+    alias: Raw
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '0066' }}"
@@ -20,6 +21,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key HOME: {{ dict(trigger.data).key }}"
+    alias: Home
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '008e' }}"
@@ -27,6 +29,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key ALARM: {{ dict(trigger.data).key }}"
+    alias: Alarm
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '004e' }}"
@@ -34,6 +37,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key MORE: {{ dict(trigger.data).key }}"
+    alias: More
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '00a5' }}"
@@ -41,6 +45,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key REW: {{ dict(trigger.data).key }}"
+    alias: Rew
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '00a4' }}"
@@ -48,6 +53,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key PAUSE: {{ dict(trigger.data).key }}"
+    alias: Pause
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '00a3' }}"
@@ -55,6 +61,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key FWD: {{ dict(trigger.data).key }}"
+    alias: Fwd
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '0069' }}"
@@ -62,6 +69,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key BACK: {{ dict(trigger.data).key }}"
+    alias: Back
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '00cf' }}"
@@ -69,6 +77,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key PLAY: {{ dict(trigger.data).key }}"
+    alias: Play
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '003b' }}"
@@ -76,6 +85,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key F1: {{ dict(trigger.data).key }}"
+    alias: F1
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '003c' }}"
@@ -83,6 +93,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key F2: {{ dict(trigger.data).key }}"
+    alias: F2
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '003d' }}"
@@ -90,6 +101,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key F3: {{ dict(trigger.data).key }}"
+    alias: F3
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '003e' }}"
@@ -97,6 +109,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key F4: {{ dict(trigger.data).key }}"
+    alias: F4
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '003f' }}"
@@ -104,6 +117,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key F5: {{ dict(trigger.data).key }}"
+    alias: F5
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '0040' }}"
@@ -111,6 +125,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key F6: {{ dict(trigger.data).key }}"
+    alias: F6
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '0071' }}"
@@ -118,6 +133,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key MUTE: {{ dict(trigger.data).key }}"
+    alias: Mute
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '0074' }}"
@@ -125,6 +141,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key POWER: {{ dict(trigger.data).key }}"
+    alias: Power
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '006a' }}"
@@ -132,6 +149,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key SNOOZE: {{ dict(trigger.data).key }}"
+    alias: Snooze
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '00090001' }}"
@@ -139,6 +157,7 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key VOLDOWN: {{ dict(trigger.data).key }}"
+    alias: VolDown
   - if:
       - condition: template
         value_template: "{{ dict(trigger.data).key == '0009ffff' }}"
@@ -146,4 +165,5 @@ action:
       - service: persistent_notification.create
         data_template:
           message: "Key VOLUP: {{ dict(trigger.data).key }}"
+    alias: VolUp
 mode: single
