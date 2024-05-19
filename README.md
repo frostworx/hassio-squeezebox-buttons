@@ -2,12 +2,12 @@
 
 Send all your squeezebox buttons to Home Assistant via webhook
 
-Some scripts _(could as well be reduced to just one, the scripts are mostly identical)_ which send all button presses on a Logitech Squeezebox
+Short script which send all button presses on a Logitech Squeezebox
 to your Home Assistant via webhook _(only tested with Squeezebox Radio)_
 
 Trigger whatever action you like for each of them using a Home Assistant Automation.
 
-No dependencies, just install them via ssh and add them to your Squeezebox init scripts.
+No dependencies, just scp it to your Squeezebox and add it to the init scripts.
 
 The only linux tools used are already preinstalled in the squeezebox
 
@@ -23,25 +23,25 @@ _(the buttons are completely independant from LMS - in theory we could even get 
 
 # Installation
 
-- replace the example webhook in all scripts _(and the example home assistant automation)_ with your own one - for example using sed:
+- replace the example webhook in sbevmon _(and the example home assistant automation)_ with your own one - for example using sed:
 
-`sed "s:87161aac-f0ae-4939-8ad3-4f36b6482bb9:7ca6e1d5-0343-42fa-a707-545c76e1b4df:g" -i scripts/sbev*`
+`sed "s:87161aac-f0ae-4939-8ad3-4f36b6482bb9:7ca6e1d5-0343-42fa-a707-545c76e1b4df:g" -i sbevmon`
 
 `sed "s:87161aac-f0ae-4939-8ad3-4f36b6482bb9:7ca6e1d5-0343-42fa-a707-545c76e1b4df:g" -i mysb-send-button`
 
-optionally replace `homeassistant.local` with your home assistant dns or ip in all scripts
+optionally replace `homeassistant.local` with your home assistant dns or ip in `sbevmon`
 
 example:
 
-`sed "s:homeassistant.local:10.10.3.123:g" -i scripts/sbev*`
+`sed "s:homeassistant.local:10.10.3.123:g" -i sbevmon`
 
 You can easily generate a custom uuid on [duckduckgo](https://duckduckgo.com/?q=uuid&ia=answer) _(found in [this excellent howto](https://community.home-assistant.io/t/sensor-for-computer-usage/59522/20))_
 
-- copy all 3 scripts in the scripts directory to your squeezebox _(using ssh)_
+- copy the script to your squeezebox _(using ssh)_
 
 example:
 
- `scp -O scripts/sbev* yoursqueezebox:/usr/bin/`
+ `scp -O sbevmon yoursqueezebox:/usr/bin/`
 
 _(default squeezebox root password is '1234'')_
 
@@ -58,12 +58,10 @@ template:
 
 ## in the squeezebox
 
-- add the scripts to `/etc/init.d/rcS.local` _(does not exist by default)_
+- add the script to `/etc/init.d/rcS.local` _(does not exist by default)_
 _(commented for a reason, you might have already a custom rcS.local)_:
 
-#echo "/usr/bin/sbev0mon &" > /etc/init.d/rcS.local
-#echo "/usr/bin/sbev1mon &" >> /etc/init.d/rcS.local
-#echo "/usr/bin/sbev2mon &" >> /etc/init.d/rcS.local
+#echo "/usr/bin/sbevmon &" > /etc/init.d/rcS.local
 #echo "exit 0" >> /etc/init.d/rcS.local
 
 example _(ymmv)_:
@@ -71,20 +69,18 @@ example _(ymmv)_:
 
 `
 # cat /etc/init.d/rcS.local
-/usr/bin/sbev0mon &
-/usr/bin/sbev1mon &
-/usr/bin/sbev2mon &
+/usr/bin/sbevmon &
 exit 0
 `
 
 - make the scripts and the init script executable
 
-`chmod +x /usr/bin/sbev*`
+`chmod +x /usr/bin/sbevmon`
 
 `chmod +x /etc/init.d/rcS.local`
 
-- reboot - the scripts should automatically start and run in the background
-- _(ssh back in and check with 'ps aux | grep sbev' if you want)_
+- reboot - `sbevmon` should automatically start and run in the background
+- _(ssh back in and check with 'ps aux | grep sbevmon' if you want)_
 
 # home assistant:
 

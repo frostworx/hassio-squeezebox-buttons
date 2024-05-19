@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# monitor event0, event1 and event2 keys and send a raw hexcode to home assistant webhook
+
+WH="87161aac-f0ae-4939-8ad3-4f36b6482bb9"
+HA="homeassistant.local"
+HP=8123
+
+loopev0() {
+  while true; do
+    KEYVAL="$(hexdump "/dev/input/event0" -n 12 | awk '{print $7}')"
+    if [ -n "$KEYVAL" ]; then
+      wget --post-data "key=$KEYVAL" http://$HA:$HP/api/webhook/$WH -q -O-
+    fi
+  done
+}
+
+loopev1() {
+  while true; do
+    KEYVAL="$(hexdump "/dev/input/event1" -n 12 | awk '{print $7}')"
+    if [ -n "$KEYVAL" ]; then
+      wget --post-data "key=$KEYVAL" http://$HA:$HP/api/webhook/$WH -q -O-
+    fi
+  done
+}
+
+loopev2() {
+  while true; do
+    KEYVAL="$(hexdump "/dev/input/event2" -n 14 | awk '{print $7 $8}')"
+    if [ -n "$KEYVAL" ]; then
+      wget --post-data "key=$KEYVAL" http://$HA:$HP/api/webhook/$WH -q -O-
+    fi
+  done
+}
+
+loopev0 & loopev1 & loopev2 &
+
