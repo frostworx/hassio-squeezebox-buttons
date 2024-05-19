@@ -166,4 +166,20 @@ action:
         data_template:
           message: "Key VOLUP: {{ dict(trigger.data).key }}"
     alias: VolUp
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '00080001' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key WHEELL: {{ dict(trigger.data).key }}"
+    alias: WheelLeft
+  - if:
+      - condition: template
+        value_template: "{{ dict(trigger.data).key == '0008ffff' }}"
+    then:
+      - service: persistent_notification.create
+        data_template:
+          message: "Key WHEELR: {{ dict(trigger.data).key }}"
+    alias: WheelRight
 mode: single
