@@ -7,6 +7,8 @@ to your Home Assistant via webhook _(only tested with Squeezebox Radio)_
 
 Trigger whatever action you like for each of them using a Home Assistant Automation.
 
+Additionally send data of the Squeezebox lightsensor to Home Assistant via 2nd webhook.
+
 No dependencies, just scp it to your Squeezebox and add it to the init scripts.
 
 The only linux tools used are already preinstalled in the squeezebox
@@ -36,6 +38,7 @@ example:
 `sed "s:homeassistant.local:10.10.3.123:g" -i sbevmon`
 
 You can easily generate a custom uuid on [duckduckgo](https://duckduckgo.com/?q=uuid&ia=answer) _(found in [this excellent howto](https://community.home-assistant.io/t/sensor-for-computer-usage/59522/20))_
+Alternatively create a new automation in home assistant and select a webhook as trigger. it will be autocreated.
 
 - copy the script to your squeezebox _(using ssh)_
 

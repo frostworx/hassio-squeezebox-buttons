@@ -1,16 +1,24 @@
 #!/bin/sh
 
 # monitor event0, event1 and event2 keys and send a raw hexcode to home assistant webhook
+# monitor light sensor and send it to home assistant webhook
 
-WH="87161aac-f0ae-4939-8ad3-4f36b6482bb9"
-HA="homeassistant.local"
-HP=8123
+############ variables ####
+
+BWH="87161aac-f0ae-4939-8ad3-4f36b6482bb9"  # button webhook
+LWH="-F45c1sMSuxX-P34CE0uT-fwx"             # light webhook
+HA="homeassistant.local"                    # home assistant ip/hostname
+HP=8123                                     # home assistant port
+LIGHTSLEEP=1                                # light loop sleep duration
+LIGHTDIFF=500                               # light diff to previous measure
+
+############
 
 loopev0() {
   while true; do
     KEYVAL="$(hexdump "/dev/input/event0" -n 12 | awk '{print $7}')"
     if [ -n "$KEYVAL" ]; then
-      wget --post-data "key=$KEYVAL" http://$HA:$HP/api/webhook/$WH -q -O-
+      wget --post-data "key=$KEYVAL" http://$HA:$HP/api/webhook/$BWH -q -O-
     fi
   done
 }
@@ -19,7 +27,7 @@ loopev1() {
   while true; do
     KEYVAL="$(hexdump "/dev/input/event1" -n 12 | awk '{print $7}')"
     if [ -n "$KEYVAL" ]; then
-      wget --post-data "key=$KEYVAL" http://$HA:$HP/api/webhook/$WH -q -O-
+      wget --post-data "key=$KEYVAL" http://$HA:$HP/api/webhook/$BWH -q -O-
     fi
   done
 }
@@ -28,10 +36,29 @@ loopev2() {
   while true; do
     KEYVAL="$(hexdump "/dev/input/event2" -n 14 | awk '{print $7 $8}')"
     if [ -n "$KEYVAL" ]; then
-      wget --post-data "key=$KEYVAL" http://$HA:$HP/api/webhook/$WH -q -O-
+      wget --post-data "key=$KEYVAL" http://$HA:$HP/api/webhook/$BWH -q -O-
     fi
   done
 }
 
-loopev0 & loopev1 & loopev2 &
+looplight() {
+  OLDAMB=100000
+  while true; do
+    AMB="$(cat /sys/class/i2c-adapter/i2c-1/1-0010/ambient)"
+    if [ "$AMB" -gt "$OLDAMB" ]; then
+      DIFF=$(( AMB - OLDAMB ))
+    else
+      DIFF=$(( OLDAMB - AMB ))
+    fi
 
+    OLDAMB="$AMB"
+
+    if [ "$DIFF" -gt "$LIGHTDIFF" ]; then
+      wget --post-data "light=$AMB" http://$HA:$HP/api/webhook/$LWH -q -O-
+    fi
+    sleep "$LIGHTSLEEP"
+  done
+}
+
+loopev0 & loopev1 & loopev2 &
+looplight &
