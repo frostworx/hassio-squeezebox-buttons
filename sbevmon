@@ -5,12 +5,41 @@
 
 ############ variables ####
 
-BWH="87161aac-f0ae-4939-8ad3-4f36b6482bb9"  # button webhook
-LWH="-F45c1sMSuxX-P34CE0uT-fwx"             # light webhook
-HA="homeassistant.local"                    # home assistant ip/hostname
+#BWH="87161aac-f0ae-4939-8ad3-4f36b6482bb9"  # button webhook
+#LWH="-F45c1sMSuxX-P34CE0uT-fwx"             # light webhook
+#HA="homeassistant.local"                    # home assistant ip/hostname
+
 HP=8123                                     # home assistant port
 LIGHTSLEEP=1                                # light loop sleep duration
 LIGHTDIFF=500                               # light diff to previous measure
+
+getbwh() {
+  cat "/etc/squeezeplay/userpath/settings/SlimDiscovery.lua" | awk -F 'playerId=' '{print $2}' | awk -F',' '{print $1}' | md5sum | awk '{print $1}'
+}
+
+getlmsip() {
+  cat "/etc/squeezeplay/userpath/settings/SlimDiscovery.lua" | awk -F 'ip=' '{print $2}'| awk -F',' '{print $1}'  | sed "s:\"::g" | sed "s:\:::g"
+}
+
+
+if [ -z "$BWH" ]; then
+ BWH="$(getbwh)"
+fi
+
+if [ -z "$LWH" ]; then
+ LWH="$(getbwh | md5sum | awk '{print $1}')"
+fi
+
+if [ -z "$HA" ]; then
+ HA="$(getlmsip)"
+fi
+
+if [ -n "$1" ]; then
+  echo "button webhook BWH: '$BWH'"
+  echo "light webhook LWH: '$LWH'"
+  echo "LMS ip HA: '$HA'"
+  exit
+fi
 
 ############
 
